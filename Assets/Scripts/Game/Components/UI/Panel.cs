@@ -27,8 +27,9 @@ namespace Game.Components.UI
         private int _maxDataCount;
         private int _page;
 
-
         private CancellationToken CancellationToken => _cancellationTokenSource.Token;
+        private event Action PageChange;
+        private event Action DataCountArrived;
 
         private async void Start()
         {
@@ -62,9 +63,6 @@ namespace Game.Components.UI
             _cancellationTokenSource.Dispose();
         }
 
-        private event Action PageChange;
-        private event Action DataCountArrived;
-
         private async Task GetDataAsync()
         {
             var index = 0;
@@ -94,7 +92,6 @@ namespace Game.Components.UI
 
         private async Task UpdatePanelAsync()
         {
-            Debug.Log("UpdatePanelAsync");
             SetLoadingState(true);
             var maxIndex = Mathf.Min(_page * displayItems.Length, _maxDataCount);
             while (_dataItems == null || _dataItems.Count <= maxIndex) await Task.Yield();
