@@ -82,7 +82,7 @@ namespace Game.Components.UI
 
         private void UpdatePanel()
         {
-            UpdatePanelAsync().ContinueWith(t => Debug.LogError(t.Exception), TaskContinuationOptions.NotOnFaulted);
+            UpdatePanelAsync().ContinueWith(t => Debug.LogError(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
         }
 
         private async void UpdatePanelHandleAsync()
