@@ -1,19 +1,20 @@
 using System;
-using ScriptableObjects;
+using System.Diagnostics.CodeAnalysis;
+using Game.ScriptableObjects;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Components
+namespace Game.Components.UI
 {
-    public class ListItem : MonoBehaviour
+    public sealed class ListItem : MonoBehaviour
     {
-        [SerializeField] private SpriteContainer gemSprites;
-        [SerializeField] private Image gemImage;
-        [SerializeField] private GameObject glow;
+        [SerializeField] [NotNull] private SpriteContainer gemSprites;
+        [SerializeField] [NotNull] private Image gemImage;
+        [SerializeField] [NotNull] private GameObject glow;
 
-        [SerializeField] private TextMeshProUGUI description;
-        [SerializeField] private TextMeshProUGUI number;
+        [SerializeField] [NotNull] private TextMeshProUGUI description;
+        [SerializeField] [NotNull] private TextMeshProUGUI number;
 
         private DataItem _dataItem;
 
@@ -25,7 +26,7 @@ namespace Components
             glow.SetActive(_dataItem.Special);
             gemImage.sprite = GetGemSpriteByItemCategory(dataItem.Category);
             description.text = dataItem.Description;
-            number.text = (count+1).ToString();
+            number.text = (count + 1).ToString();
         }
 
         public void Disable()
@@ -37,9 +38,6 @@ namespace Components
         {
             return category switch
             {
-                // explicit pattern matching is better than implicit enum casting in this case
-                // enum casting would be ok if CategoryType enum would have specified constant values as such
-                // RED = 0, etc.
                 DataItem.CategoryType.RED => gemSprites.items[0],
                 DataItem.CategoryType.BLUE => gemSprites.items[1],
                 DataItem.CategoryType.GREEN => gemSprites.items[2],
